@@ -17,14 +17,14 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productsRepository: Repository<Product>,
-  ) { }
+  ) {}
 
   async create(createProductDto: CreateProductDto) {
     try {
       const product = this.productsRepository.create(createProductDto);
       await this.productsRepository.save(product);
       return product;
-    } catch (error) { 
+    } catch (error) {
       this.handleDBExceptions(error);
     }
   }
