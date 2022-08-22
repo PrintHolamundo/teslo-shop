@@ -13,7 +13,7 @@ import { ProductsModule } from './products/products.module';
       port: +process.env.DB_PORT,
       database: process.env.DB_NAME,
       username: process.env.DB_USERNAME,
-      password: 'Root',
+      password: ' Root',
       autoLoadEntities: true,
       synchronize: true,
     }),
