@@ -8,6 +8,7 @@ import {
   Param,
   Res,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { diskStorage } from 'multer';
@@ -17,7 +18,10 @@ import { fileNamer } from './helpers/fileNamer.helper';
 
 @Controller('files')
 export class FilesController {
-  constructor(private readonly filesService: FilesService) {}
+  constructor(
+    private readonly filesService: FilesService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Get('product/:imageName')
   findProductImage(
@@ -44,7 +48,9 @@ export class FilesController {
       throw new BadRequestException('Make sure that the file is an image');
     }
     // const secureUrl = `${file.filename}`;
-    const secureUrl = `http://localhost:3000/api/files/product/2472d2ee-ca1f-42ee-b6b2-624b169cb256.png`;
+    const secureUrl = `${this.configService.get('HOST_API')}/files/product/${
+      file.filename
+    }`;
     return secureUrl;
   }
 }
