@@ -10,7 +10,7 @@ export class User {
   password: string;
   @Column('text')
   fullName: string;
-  @Column({ type: 'bool', unique: true })
+  @Column({ type: 'bool', default: true })
   isActive: boolean;
   @Column({ type: 'text', array: true, default: ['user'] })
   roles: string[];
