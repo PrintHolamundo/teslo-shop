@@ -39,8 +39,10 @@ export class AuthService {
     });
     if (!user)
       throw new UnauthorizedException('Credentials are not valid (email)');
-    if (bcrypt.compareSync(password, user.password)) return user;
-    throw new UnauthorizedException('Credentials are not valid (password)');
+    if (bcrypt.compareSync(password, user.password))
+      throw new UnauthorizedException('Credentials are not valid (password)');
+    return user;
+    //TODO: retornar el JWT
   }
 
   private handleDBErrors(error: any): never {
