@@ -3,6 +3,7 @@ import { BadRequestException, CanActivate, ExecutionContext, ForbiddenException,
 import { Observable } from 'rxjs';
 import { Console } from 'console';
 import { User } from '../entities/user.entity';
+import { META_ROLES } from '../decorators/role-protected.decorator';
 
 @Injectable()
 export class UserRoleGuard implements CanActivate {
@@ -11,7 +12,7 @@ export class UserRoleGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const validRoles: string[] = this.reflector.get(
-      'roles',
+      META_ROLES,
       context.getHandler(),
     );
     if (!validRoles) return true
