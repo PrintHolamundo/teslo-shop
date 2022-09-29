@@ -1,5 +1,6 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ProductImage } from './';
+import { User } from 'src/auth/entities/user.entity';
 
 @Entity({ name: 'products' })
 export class Product {
@@ -12,7 +13,7 @@ export class Product {
     })
     title: string;
 
-    @Column('float',{
+    @Column('float', {
         default: 0
     })
     price: number;
@@ -33,7 +34,7 @@ export class Product {
     })
     stock: number;
 
-    @Column('text',{
+    @Column('text', {
         array: true
     })
     sizes: string[];
@@ -57,17 +58,25 @@ export class Product {
     images?: ProductImage[];
 
 
+    @ManyToOne(
+        () => User,
+        (user) => user.product,
+        { eager: true }
+    )
+    user: User
+
+
     @BeforeInsert()
     checkSlugInsert() {
 
-        if ( !this.slug ) {
+        if (!this.slug) {
             this.slug = this.title;
         }
 
         this.slug = this.slug
             .toLowerCase()
-            .replaceAll(' ','_')
-            .replaceAll("'",'')
+            .replaceAll(' ', '_')
+            .replaceAll("'", '')
 
     }
 
@@ -75,8 +84,8 @@ export class Product {
     checkSlugUpdate() {
         this.slug = this.slug
             .toLowerCase()
-            .replaceAll(' ','_')
-            .replaceAll("'",'')
+            .replaceAll(' ', '_')
+            .replaceAll("'", '')
     }
 
 
