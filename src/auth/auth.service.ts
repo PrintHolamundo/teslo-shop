@@ -19,7 +19,7 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
   async create(createUserDto: CreateUserDto) {
     try {
       const { password, ...userData } = createUserDto;
@@ -48,6 +48,12 @@ export class AuthService {
     return { ...user, token: this.getJwtToken({ id: user.id }) };
     //TODO: retornar el JWT
   }
+
+  async checkAuthStatus(user: User) {
+    return { ...user, token: this.getJwtToken({ id: user.id }) };
+
+  }
+
   private getJwtToken(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
     return token;
